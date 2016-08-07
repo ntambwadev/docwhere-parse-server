@@ -236,3 +236,12 @@ a:visited {
   content: "";
 }
 
+pre {
+    height: auto;
+    max-height: 400px;
+    overflow: auto;
+    background-color: #eeeeee;
+    word-break: break-word;
+    word-wrap: normal ;
+    white-space: pre-wrap;
+}​

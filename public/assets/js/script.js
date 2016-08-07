@@ -5,9 +5,22 @@
 var Steps = {}
 
 Steps.init = function() {
+
   this.buildParseUrl();
   this.bindBtn('#step-1-btn', function(e){
     ParseRequest.postData();
+    e.preventDefault();
+  })
+
+  Steps.openStep('#step-2');
+  Steps.bindBtn('#step-2-btn', function(e){
+    ParseRequest.getData();
+    e.preventDefault();
+  });
+
+    Steps.openStep('#step-3');
+  Steps.bindBtn('#step-3-btn', function(e){
+    ParseRequest.postCloudCodeData();
     e.preventDefault();
   })
 }
@@ -49,21 +62,28 @@ Steps.showWorkingMessage = function() {
 var ParseRequest = {};
 
 ParseRequest.postData = function() {
+  
+    // Steps.openStep('#step-3');
+    // Steps.bindBtn('#step-3-btn', function(e){
+    //   ParseRequest.postCloudCodeData();
+    //   e.preventDefault();
+    // })
   XHR.setCallback(function(data){
     // store objectID
     Store.objectId = JSON.parse(data).objectId;
     // close first step
     Steps.closeStep('#step-1');
     Steps.fillStepOutput('#step-1-output', data)
-    Steps.fillBtn('#step-1-btn', 'Posted');
+    Steps.fillBtn('#step-1-btn', 'Fetched');
     // open second step
-    Steps.openStep('#step-2');
-    Steps.bindBtn('#step-2-btn', function(e){
-      ParseRequest.getData();
-      e.preventDefault();
-    });
+    // Steps.openStep('#step-2');
+    // Steps.bindBtn('#step-2-btn', function(e){
+    //   ParseRequest.getData();
+    //   e.preventDefault();
+    // });
   });
-  XHR.POST('/parse/classes/GameScore');
+  // XHR.POST('/parse/classes/GameScore');
+    XHR.POST('/parse/functions/updateGovDataOnParseForAllMesures');
 }
 
 ParseRequest.getData = function() {
@@ -73,13 +93,14 @@ ParseRequest.getData = function() {
     Steps.fillStepOutput('#step-2-output', data)
     Steps.fillBtn('#step-2-btn', 'Fetched');
     // open third step
-    Steps.openStep('#step-3');
-    Steps.bindBtn('#step-3-btn', function(e){
-      ParseRequest.postCloudCodeData();
-      e.preventDefault();
-    })
+    // Steps.openStep('#step-3');
+    // Steps.bindBtn('#step-3-btn', function(e){
+    //   ParseRequest.postCloudCodeData();
+    //   e.preventDefault();
+    // })
   });
-  XHR.GET('/parse/classes/GameScore');
+  // XHR.GET('/parse/classes/GameScore');
+  XHR.POST('/parse/functions/RemoveFacilities');
 }
 
 ParseRequest.postCloudCodeData = function() {
@@ -91,7 +112,8 @@ ParseRequest.postCloudCodeData = function() {
     // open third step
     Steps.showWorkingMessage();
   });
-  XHR.POST('/parse/functions/hello');
+
+  XHR.POST('/parse/functions/queryGovDataPlacesInfo');
 }
 
 
@@ -133,14 +155,14 @@ XHR.setCallback = function(callback) {
 XHR.POST = function(path, callback) {
   var seed = {"score":1337,"playerName":"Sean Plott","cheatMode":false}
   this.xhttp.open("POST", Config.getUrl() + path, true);
-  this.xhttp.setRequestHeader("X-Parse-Application-Id", "myAppId");
+  this.xhttp.setRequestHeader("X-Parse-Application-Id", "oMVo1jEWRESQK5KOytehjyHsyIrVMP6DPt2IEhDv");
   this.xhttp.setRequestHeader("Content-type", "application/json");
   this.xhttp.send(JSON.stringify(seed));
 }
 
 XHR.GET = function(path, callback) {
   this.xhttp.open("GET", Config.getUrl() + path + '/' + Store.objectId, true);
-  this.xhttp.setRequestHeader("X-Parse-Application-Id", "myAppId");
+  this.xhttp.setRequestHeader("X-Parse-Application-Id", "oMVo1jEWRESQK5KOytehjyHsyIrVMP6DPt2IEhDv");
   this.xhttp.setRequestHeader("Content-type", "application/json");
   this.xhttp.send(null);
 }

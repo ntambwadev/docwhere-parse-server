@@ -2,6 +2,7 @@
 // compatible API routes.
 
 var express = require('express');
+var cors = require('cors');
 var ParseServer = require('parse-server').ParseServer;
 var path = require('path');
 
@@ -12,20 +13,20 @@ if (!databaseUri) {
 }
 
 var api = new ParseServer({
-  databaseURI: databaseUri || 'mongodb://localhost:27017/dev',
+  databaseURI: databaseUri || 'mongodb://docwhere:docwhere123@ds021712-a0.mlab.com:21712,ds021712-a1.mlab.com:21712/docwhereiosapp?replicaSet=rs-ds021712',
   cloud: process.env.CLOUD_CODE_MAIN || __dirname + '/cloud/main.js',
-  appId: process.env.APP_ID || 'myAppId',
-  masterKey: process.env.MASTER_KEY || '', //Add your master key here. Keep it secret!
-  serverURL: process.env.SERVER_URL || 'http://localhost:1337/parse',  // Don't forget to change to https if needed
-  liveQuery: {
-    classNames: ["Posts", "Comments"] // List of classes to support for query subscriptions
-  }
+  appId: process.env.APP_ID || 'oMVo1jEWRESQK5KOytehjyHsyIrVMP6DPt2IEhDv',
+  masterKey: process.env.MASTER_KEY || 'k9lsALW9y8KBUAXQzVOeHkfjo9JzP3VMC5UO57Is', //Add your master key here. Keep it secret!
+  serverURL: process.env.SERVER_URL || 'https://docwhereiosapp.herokuapp.com/parse'  // Don't forget to change to https if needed
+  // serverURL: process.env.SERVER_URL || 'http://localhost:1337/parse'
 });
+
 // Client-keys like the javascript key or the .NET key are not necessary with parse-server
 // If you wish you require them, you can set them as options in the initialization above:
 // javascriptKey, restAPIKey, dotNetKey, clientKey
 
 var app = express();
+app.use(cors()); 
 
 // Serve static assets from the /public folder
 app.use('/public', express.static(path.join(__dirname, '/public')));
@@ -36,7 +37,7 @@ app.use(mountPath, api);
 
 // Parse Server plays nicely with the rest of your web routes
 app.get('/', function(req, res) {
-  res.status(200).send('I dream of being a website.  Please star the parse-server repo on GitHub!');
+  res.status(200).send('docwhere parse server running!');
 });
 
 // There will be a test page available on the /test path of your server url

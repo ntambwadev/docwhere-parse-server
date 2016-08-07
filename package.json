@@ -9,8 +9,14 @@
   },
   "license": "MIT",
   "dependencies": {
+    "cors": "*",
+    "cron": "*",
     "express": "~4.11.x",
+    "googleapis": "^9.0.0",
     "kerberos": "~0.0.x",
+    "moment": "*",
+    "node-cron": "*",
+    "node-schedule": "*",
     "parse": "~1.8.0",
     "parse-server": "~2.2.2"
   },
